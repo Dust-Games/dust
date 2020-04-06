@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+
+    php:
+        build: docker/php/
+        container_name: dust_php
+
+        volumes:
+            - ./backend:/var/www/backend
+
+        depends_on:
+            - db
+
+    db:
+        build: docker/postgres/
+        container_name: dust_db
