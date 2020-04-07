@@ -9,12 +9,18 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\Api\LoginRequest;
 use App\Http\Requests\Api\RegisterRequest;
+use App\Http\Requests\Api\RefreshTokenRequest;
 use Illuminate\Auth\Events\Registered;
-use App\Jobs\RemoveSessions;
+use App\Jobs\RemoveOldTokens;
 use App\Models\User;
 
 class AuthController extends Controller
 {
+
+    public function me()
+    {
+        return new UserResource(Auth::user());
+    }
 
     public function register(RegisterRequest $req)
     {
@@ -48,17 +54,16 @@ class AuthController extends Controller
 
         if ($this->checkPassword($data['password'], $user->getPassword())) {
             
+            $time = (string) now();
 
             $response = $this->requestAccessToken(
                 $data[$this->username()],
                 $data['password']
             );
 
-
             if ($user->hasTooManyTokens()) {
-                $deleted = $user->tokens()->delete();
+                RemoveOldTokens::dispatch($user->getKey(), $time);
             }
-
 
             return response([
                 'access_token' => $response['access_token'],
@@ -68,6 +73,23 @@ class AuthController extends Controller
         }
 
         return response(['error' => 'Wrong password. Please, try again.'], 422);
+    }
+
+    public function refreshToken(RefreshTokenRequest $req)
+    {
+        $refresh_token = $req->validated()['refresh_token'];
+
+        $params = [
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $refresh_token,
+        ];
+
+        $resp = $this->makePostRequest($params);
+
+        return [
+            'access_token' => $resp['access_token'],
+            'refresh_token' => $resp['refresh_token'],
+        ];
     }
 
     public function username()
@@ -101,6 +123,8 @@ class AuthController extends Controller
             config('app.url') . '/oauth/token',
             $all_params,
         );
+
+        info($response);
 
         return $response;
     }
