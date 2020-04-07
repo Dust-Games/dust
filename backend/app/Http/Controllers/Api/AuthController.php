@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use App\Http\Resources\UserResource;
@@ -16,11 +15,6 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-
-    public function me()
-    {
-        return new UserResource(Auth::user());
-    }
 
     public function register(RegisterRequest $req)
     {

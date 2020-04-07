@@ -4,17 +4,45 @@ use Illuminate\Support\Facades\Route;
 
 /*|==========| Auth |==========|*/
 
-Route::post('login', 'AuthController@login')->name('login');
-Route::post('register', 'AuthController@register')->name('register');
-Route::post('refresh-token', 'AuthController@refreshToken')->name('refresh');
+Route::group(
+	[
+		'prefix' => 'auth',
+		'as' => 'auth.',
+	],
+	function () {
+		Route::post('login', 'AuthController@login')->name('login');
+		Route::post('register', 'AuthController@register')->name('register');
+		Route::post('refresh-token', 'AuthController@refreshToken')->name('refresh');
 
+
+		Route::group(
+			[
+				'middleware' => 'auth:api'
+			],
+			function () {
+			    Route::post('logout', 'AuthController@logout')->name('logout');
+			    
+			}
+		);		
+	}
+);
+
+/*|==========| Users |==========|*/
 
 Route::group(
 	[
-		'middleware' => 'auth:api'
+		'prefix' => 'users',
+		'as' => 'users.',
 	],
 	function () {
-	    Route::post('logout', 'AuthController@logout')->name('logout');
-	    Route::post('me', 'AuthController@me')->name('me');
+
+		Route::group(
+			[
+				'middleware' => 'auth:api',
+			],
+			function () {
+				Route::post('me', 'UserController@me')->name('me');
+			}
+		);
 	}
 );

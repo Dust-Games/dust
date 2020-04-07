@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\HasDifferentChars;
 
 class RegisterRequest extends FormRequest
 {
@@ -24,9 +25,9 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|max:255'
+            'username' => ['required', 'string', 'unique:users,username'],
+            'email' =>['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:10', 'max:255', new HasDifferentChars(5)]
         ];
     }
 }
