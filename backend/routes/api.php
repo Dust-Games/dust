@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 /*|==========| Auth |==========|*/
 
 Route::post('login', 'AuthController@login')->name('login');
+Route::post('register', 'AuthController@register')->name('register');
+
 
 Route::group(
 	[
