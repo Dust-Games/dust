@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\Api\LoginRequest;
 use App\Http\Requests\Api\RegisterRequest;
 use Illuminate\Auth\Events\Registered;
+use App\Jobs\RemoveSessions;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -47,10 +48,17 @@ class AuthController extends Controller
 
         if ($this->checkPassword($data['password'], $user->getPassword())) {
             
+
             $response = $this->requestAccessToken(
                 $data[$this->username()],
                 $data['password']
             );
+
+
+            if ($user->hasTooManyTokens()) {
+                $deleted = $user->tokens()->delete();
+            }
+
 
             return response([
                 'access_token' => $response['access_token'],
