@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\Api\LoginRequest;
 use App\Http\Requests\Api\RegisterRequest;
@@ -48,16 +50,14 @@ class AuthController extends Controller
 
         if ($this->checkPassword($data['password'], $user->getPassword())) {
             
-            $time = (string) now();
+            if ($user->hasTooManyTokens()) {
+                RemoveOldTokens::dispatch($user->getKey(), (string) now());
+            }
 
             $response = $this->requestAccessToken(
                 $data[$this->username()],
                 $data['password']
             );
-
-            if ($user->hasTooManyTokens()) {
-                RemoveOldTokens::dispatch($user->getKey(), $time);
-            }
 
             return response([
                 'access_token' => $response['access_token'],
@@ -80,10 +80,30 @@ class AuthController extends Controller
 
         $resp = $this->makePostRequest($params);
 
-        return [
-            'access_token' => $resp['access_token'],
-            'refresh_token' => $resp['refresh_token'],
-        ];
+        
+        if ($this->responseHasErrors($resp)) {
+            
+            return response($resp->json(), $resp->status());
+
+        } else {
+            
+            return response([
+                $resp->json()
+            ], 200);
+        }
+    }
+
+    public function logout(Request $req)
+    {
+        if ($req->user()->token()) {
+            $revoked = $req->user()->token()->revoke();
+
+            return response([
+                'message' => 'Successful logout',
+            ], 200);
+        }
+
+        return response(['message' => 'User is not authenticated.'], 401);
     }
 
     public function username()
@@ -117,14 +137,17 @@ class AuthController extends Controller
             config('app.url') . '/oauth/token',
             $all_params,
         );
-
-        info($response);
-
+        
         return $response;
     }
 
     protected function checkPassword(string $password, string $hash)
     {
         return Hash::check($password, $hash);
+    }
+
+    protected function responseHasErrors($response)
+    {
+        return $response->status() !== 200;   
     }
 }
