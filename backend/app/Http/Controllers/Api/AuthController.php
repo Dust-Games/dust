@@ -106,6 +106,19 @@ class AuthController extends Controller
         return response(['message' => 'User is not authenticated.'], 401);
     }
 
+    public function logout(Request $req)
+    {
+        if ($req->user()->token()) {
+            $revoked = $req->user()->token()->revoke();
+
+            return response([
+                'message' => 'Successful logout',
+            ], 200);
+        }
+
+        return response(['message' => 'User is not authenticated.'], 401);
+    }
+
     public function username()
     {
         return 'email';
