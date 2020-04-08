@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\Api\LoginRequest;
 use App\Http\Requests\Api\RegisterRequest;
@@ -84,6 +86,19 @@ class AuthController extends Controller
             'access_token' => $resp['access_token'],
             'refresh_token' => $resp['refresh_token'],
         ];
+    }
+
+    public function logout(Request $req)
+    {
+        if ($req->user()->token()) {
+            $revoked = $req->user()->token()->revoke();
+
+            return response([
+                'message' => 'Successful logout',
+            ], 200);
+        }
+
+        return response(['message' => 'User is not authenticated.'], 401);
     }
 
     public function username()
