@@ -1,3 +1,6 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/kaizzzoku/dust-backend
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:Spanri/dust-frontend.git
