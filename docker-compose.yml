@@ -47,6 +47,13 @@ services:
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
             - POSTGRES_DB=${POSTGRES_DB}
 
+        command:
+            - "postgres"
+            - "-c"
+            - "log_statement=all"
+            - "-c"
+            - "logging_collector=on"
+
 #####|( o_o)|# Nginx #|(o_o )|#####
 
     nginx:
