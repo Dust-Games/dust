@@ -62,13 +62,30 @@ services:
 
         ports:
             - "80:80"
+            - "443:443"
 
         volumes:
-            - ./backend:/var/www/backend
+            - ./backend:/var/www/backend # Backend
+            - ./frontend/dist:/var/www/frontend # Static frontend
             - ./docker/nginx/sites:/etc/nginx/sites-enabled
             - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-
+            
+            - ./data/certbot/conf:/etc/letsencrypt
+            - ./data/certbot/www:/var/www/certbot 
+        
         depends_on:
             - node
             - php
             - db
+
+####|( o_o)|# CertBot #|(o_o )####
+
+    certbot:
+        image: certbot/certbot  
+        container_name: certbot
+
+        volumes: 
+            - ./data/certbot/conf:/etc/letsencrypt
+            - ./data/certbot/www:/var/www/certbot 
+        
+        
