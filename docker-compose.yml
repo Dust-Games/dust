@@ -14,6 +14,18 @@ services:
         depends_on:
             - db
 
+#####|( o_o)|# Admin panel #|(o_o )|#####
+
+    admin:
+        build: docker/admin/
+        container_name: dust_admin
+
+        volumes:
+            - ./admin:/var/www/admin
+
+        depends_on:
+            - db
+
 #####|( o_o)|# Vue SPA #|(o_o )|#####
 
     node:
@@ -47,12 +59,12 @@ services:
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
             - POSTGRES_DB=${POSTGRES_DB}
 
-      # command:
-      #      - "postgres"
-      #      - "-c"
-      #      - "log_statement=all"
-      #      - "-c"
-      #      - "logging_collector=on"
+        command:
+            - "postgres"
+            - "-c"
+            - "log_statement=all"
+            - "-c"
+            - "logging_collector=on"
 
 #####|( o_o)|# Nginx #|(o_o )|#####
 
@@ -66,6 +78,7 @@ services:
 
         volumes:
             - ./backend:/var/www/backend # Backend
+            - ./admin:/var/www/admin # Admin panel
             - ./frontend/dist:/var/www/frontend # Static frontend
             - ./docker/nginx/sites:/etc/nginx/sites-enabled
             - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -74,6 +87,7 @@ services:
             - ./data/certbot/www:/var/www/certbot 
         
         depends_on:
+            - admin
             - node
             - php
             - db
