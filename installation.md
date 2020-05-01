@@ -13,6 +13,6 @@ git clone https://github.com/kaizzzoku/dust.git dust
 ```bash
 docker-compose up -d --build
 ```
-Возможно выскочит ошибка что прав на изменение бд в `docker/db/data` недостаточно,
+Возможно выскочит ошибка что прав на изменение бд в `docker/db/data` недостаточно,  
 в таком случае сделать `sudo chmod -R 777 docker/db/data`
 ### теперь всё должно работать
