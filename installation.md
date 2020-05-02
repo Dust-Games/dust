@@ -1,15 +1,18 @@
 # Инструкция по установке
+### 0. Установить docker, docker-compose, добавить docker в группы юзера
+https://docs.docker.com/engine/install/ubuntu/
+https://docs.docker.com/compose/install/
+https://linoxide.com/linux-how-to/use-docker-without-sudo-ubuntu/
 ### 1. Отключить всех демонов, кто может занимать 80 порт
 ```bash
 sudo service nginx stop
 sudo service apache2 stop
 ```
-### 2. Установить docker, docker-compose
-### 3. Клонировать проект
+### 2. Клонировать проект
 ```bash
-git clone https://github.com/kaizzzoku/dust.git dust
+git clone --recursive https://github.com/kaizzzoku/dust.git dust
 ```
-### 4. Поднять контейнеры
+### 3. Поднять контейнеры
 ```bash
 docker-compose up -d --build
 ```
