@@ -1,8 +1,8 @@
 # Инструкция по установке
 ### 0. Установить docker, docker-compose, добавить docker в группы юзера
-https://docs.docker.com/engine/install/ubuntu/
-https://docs.docker.com/compose/install/
-https://linoxide.com/linux-how-to/use-docker-without-sudo-ubuntu/
+* [Docker installation](https://docs.docker.com/engine/install/ubuntu/)
+* [Docker-compose installation](https://docs.docker.com/compose/install/)
+* [Add docker to user`s groups](https://linoxide.com/linux-how-to/use-docker-without-sudo-ubuntu/)
 ### 1. Отключить всех демонов, кто может занимать 80 порт
 ```bash
 sudo service nginx stop
