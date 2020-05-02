@@ -3,7 +3,7 @@
 	url = https://github.com/kaizzzoku/dust-backend.git
 [submodule "frontend"]
 	path = frontend
-	url = https://github.com/Spanri/dust-frontend.git
+	url = git@github.com:Dust-Games/dust-frontend.git
 [submodule "admin"]
 	path = admin
 	url = git@github.com:kaizzzoku/dust-admin-panel.git
