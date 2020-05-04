@@ -4,3 +4,6 @@
 [submodule "frontend"]
 	path = frontend
 	url = git@github.com:Dust-Games/dust-frontend.git
+[submodule "admin"]
+	path = admin
+	url = git@github.com:Dust-Games/admin.git
