@@ -32,6 +32,24 @@ services:
         environment:
             - HOST=0.0.0.0
 
+#####|( o_o)|# Vue SPA for admin panel #|(o_o )|#####
+
+    admin:
+        build: docker/admin/
+        container_name: dust_admin
+
+        volumes:
+            - ./admin:/var/www/admin
+
+        depends_on:
+            - php
+
+        ports:
+            - "8081:8081"
+
+        environment:
+            - HOST=0.0.0.0
+
 #####|( o_o)|# PostgreSQL #|(o_o )|#####
 
     db:

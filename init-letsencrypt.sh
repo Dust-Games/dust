@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(dust.games api.dust.games bot.dust.games admin.dust.games media.dust.games)
+domains=(dust.games api.dust.games bot.dust.games admin.dust.games api.admin.dust.games media.dust.games)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="ka1zzzoku@gmail.com" # Adding a valid address is strongly recommended
@@ -39,7 +39,7 @@ echo
 
 
 echo "### Starting nginx ..."
-docker-compose up --force-recreate -d dust_nginx
+docker-compose up --force-recreate -d nginx
 echo
 
 echo "### Deleting dummy certificate for $domains ..."
@@ -77,4 +77,4 @@ docker-compose run --rm --entrypoint "\
 echo
 
 echo "### Reloading nginx ..."
-docker-compose exec dust_nginx nginx -s reload
+docker-compose exec nginx nginx -s reload
