@@ -85,6 +85,22 @@ services:
         ports:
             - 63791:6379
 
+#####|( o_o)|# Supervisor #|(o_o )|#####
+
+    supervisor:
+        container_name: dust_visor
+
+        build: docker/supervisor/
+
+        volumes:
+            - ./:/var/www/
+            - ./docker/supervisor/conf.d:/etc/supervisor/conf.d
+            - ./docker/supervisor/logs:/var/log
+
+        depends_on:
+            - db
+            - redis
+
 #####|( o_o)|# Nginx #|(o_o )|#####
 
     nginx:
