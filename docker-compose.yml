@@ -72,6 +72,19 @@ services:
             - "-c"
             - "logging_collector=on"
 
+#####|( o_o)|# Redis #|(o_o )|#####
+
+    redis:
+        container_name: dust_redis
+
+        build: docker/redis/
+
+        volumes:  
+            - redis:/data
+
+        ports:
+            - 63791:6379
+
 #####|( o_o)|# Nginx #|(o_o )|#####
 
     nginx:
@@ -108,4 +121,10 @@ services:
             - ./data/certbot/conf:/etc/letsencrypt
             - ./data/certbot/www:/var/www/certbot 
         
-        
+####|( o_o)|# Volumes #|(o_o )####
+
+volumes:
+    database:
+        driver: local
+    redis:
+        driver: local
