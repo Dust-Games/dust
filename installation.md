@@ -10,7 +10,7 @@ sudo service apache2 stop
 ```
 ### 2. Клонировать проект
 ```bash
-git clone --recursive https://github.com/kaizzzoku/dust.git dust
+git clone --recursive https://github.com/Dust-Games/dust.git dust
 ```
 ### 3. Поднять контейнеры
 ```bash
