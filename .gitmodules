@@ -1,9 +1,9 @@
 [submodule "backend"]
 	path = backend
-	url = git@github.com:Dust-Games/backend.git
+	url = https://github.com/Dust-Games/backend.git
 [submodule "frontend"]
 	path = frontend
-	url = git@github.com:Dust-Games/dust-frontend.git
+	url = https://github.com/Dust-Games/frontend.git
 [submodule "admin"]
 	path = admin
-	url = git@github.com:Dust-Games/admin.git
+	url = https://github.com/Dust-Games/admin.git
