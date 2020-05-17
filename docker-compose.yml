@@ -74,8 +74,8 @@ services:
             - "log_statement=all"
             - "-c"
             - "logging_collector=on"
-        ports:
-            - 5432:5432
+        # ports:
+        #     - 5432:5432
 
 #####|( o_o)|# Redis #|(o_o )|#####
 
