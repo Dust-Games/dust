@@ -13,45 +13,45 @@ services:
 
         depends_on:
             - db
-        environment:
-            XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
-            PHP_IDE_CONFIG: "serverName=Docker"
+        # environment:
+        #     XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
+        #     PHP_IDE_CONFIG: "serverName=Docker"
 
 #####|( o_o)|# Vue SPA #|(o_o )|#####
 
-    node:
-        build: docker/node/
-        container_name: dust_node
+    # node:
+    #     build: docker/node/
+    #     container_name: dust_node
 
-        volumes:
-            - ./frontend:/var/www/frontend
+    #     volumes:
+    #         - ./frontend:/var/www/frontend
 
-        depends_on:
-            - php
+    #     depends_on:
+    #         - php
 
-        ports:
-            - "8080:8080"
+    #     ports:
+    #         - "8080:8080"
 
-        environment:
-            - HOST=0.0.0.0
+    #     environment:
+    #         - HOST=0.0.0.0
 
 #####|( o_o)|# Vue SPA for admin panel #|(o_o )|#####
 
-    admin:
-        build: docker/admin/
-        container_name: dust_admin
+    # admin:
+    #     build: docker/admin/
+    #     container_name: dust_admin
 
-        volumes:
-            - ./admin:/var/www/admin
+    #     volumes:
+    #         - ./admin:/var/www/admin
 
-        depends_on:
-            - php
+    #     depends_on:
+    #         - php
 
-        ports:
-            - "8081:8081"
+    #     ports:
+    #         - "8081:8081"
 
-        environment:
-            - HOST=0.0.0.0
+    #     environment:
+    #         - HOST=0.0.0.0
 
 #####|( o_o)|# PostgreSQL #|(o_o )|#####
 
