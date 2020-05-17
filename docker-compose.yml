@@ -127,8 +127,8 @@ services:
             - ./data/certbot/www:/var/www/certbot 
         
         depends_on:
-            - admin
-            - node
+            # - admin
+            # - node
             - php
             - db
 
